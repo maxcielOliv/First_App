@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:primeiro_app/app/app/database/conection.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:primeiro_app/app/app/database/dao/clients_dao_impl.dart';
+import 'package:primeiro_app/app/app/domain/Clients.dart';
 
 class ListClient extends StatelessWidget {
-  Future<List<Map<String, dynamic>>> _buscar() async {
-    Database? db = await Connection.get();
-    return db!.query('Clients');
+  Future<List<Clients>> _buscar() async {
+    return ClientsDaoImpl().find();
   }
 
   @override
@@ -20,11 +19,11 @@ class ListClient extends StatelessWidget {
                 title: Text('Lista de Clientes'),
               ),
               body: ListView.builder(
-                itemCount: lista,
+                itemCount: lista.length,
                 itemBuilder: (context, i) {
                   Map contato = lista[i];
                   var avatar = CircleAvatar(
-                    backgroundImage: NetworkImage(contato['url_avatar']),
+                    backgroundImage: NetworkImage(contato['urlAvatar']),
                   );
                   return ListTile(
                     leading: avatar,
